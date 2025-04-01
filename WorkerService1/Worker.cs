@@ -1,4 +1,8 @@
+using Azure.Identity;
 using Confluent.Kafka;
+using Microsoft.Graph;
+using Microsoft.Graph.Models;
+using Microsoft.Graph.Models.ExternalConnectors;
 using Newtonsoft.Json;
 using WorkerService1.BL;
 using WorkerService1.controllers;
@@ -9,14 +13,11 @@ namespace WorkerService1
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
+        private readonly IConsumer<Ignore, string> consumer;
 
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
-        }
-
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {
             ConsumerConfig config = new ConsumerConfig
             {
                 BootstrapServers = "localhost:9092",
@@ -24,9 +25,14 @@ namespace WorkerService1
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
 
-            using IConsumer<Ignore,string> consumer = new ConsumerBuilder<Ignore, string>(config).Build();
+            consumer = new ConsumerBuilder<Ignore, string>(config).Build();
+        }
 
-            consumer.Subscribe("email-Notifier");
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            
+
+            consumer.Subscribe("Notifier");
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -38,18 +44,22 @@ namespace WorkerService1
                     //sending email 
                     EmailNotifier.NotifyError(consumeResult);
 
+                    // Send Teams message
+                    //TeamsNotifier.Notify(consumeResult);
+                    //await SendTeamsMessage(teamsMessage);
+
                     // logging info
                     _logger.LogInformation($"Consumed message '{consumeResult?.Message.Value}' at: '{consumeResult.Offset}'");
 
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    _logger.LogError($"Error : {e.Message}");
+                    _logger.LogError(ex, "Error processing Teams message");
+                    await Task.Delay(1000, stoppingToken);
                 }
             }
 
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
-
     }
 }

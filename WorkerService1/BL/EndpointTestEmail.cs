@@ -14,24 +14,32 @@ namespace WorkerService1.BL
     {
         public static EmailContent EmailInfoGetter(ServerModal sm, HealthCheckerModal hcm)
         {
-            //send request to the user service and get required data.
-            //getting data from env
-            string userServiceUrl = Environment.GetEnvironmentVariable("MY_USER_SERVICE_URL");
+            ////send request to the user service and get required data.
+            ////getting data from env
+            //string userServiceUrl = Environment.GetEnvironmentVariable("MY_USER_SERVICE_URL");
 
-            //create rest client 
-            RestClient client = new RestClient(userServiceUrl);
+            ////create rest client 
+            //RestClient client = new RestClient(userServiceUrl);
 
-            //new request to serve 
-            RestRequest request = new RestRequest($"alert/endpoint", Method.Get);
-            request.AddQueryParameter("client_id", sm.Client_id);
-            request.AddQueryParameter("server_id", sm.Server_id);
+            ////new request to serve 
+            //RestRequest request = new RestRequest($"alert/endpoint", Method.Get);
+            //request.AddQueryParameter("client_id", sm.Client_id);
+            //request.AddQueryParameter("server_id", sm.Server_id);
 
-            //executing request 
-            RestResponse rr = client.Execute(request);
+            ////executing request 
+            //RestResponse rr = client.Execute(request);
 
-            Response? response = JsonConvert.DeserializeObject<Response>(rr.Content);
+            //Response? response = JsonConvert.DeserializeObject<Response>(rr.Content);
 
-            ClientModal cm = response.Other;
+            //ClientModal cm = response.Other;
+
+            //temprory ----
+            ClientModal cm = new ClientModal()
+            {
+                Client_email = "codewithnavneet@gmail.com",
+                Client_name = "Navneet",
+                API_flow_name = "CD API flow"
+            };
 
             //provide proper info 
             return new EmailContent

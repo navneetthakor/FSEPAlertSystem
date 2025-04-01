@@ -2,9 +2,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorkerService1.BL;
 using WorkerService1.Modal;
 
@@ -12,7 +9,7 @@ namespace WorkerService1.controllers
 {
     internal class EmailNotifier
     {
-        public static void NotifyError(ConsumeResult<Ignore, string> consumeResult)
+        public static async Task NotifyError(ConsumeResult<Ignore, string> consumeResult)
         {
             //string to object 
             KafkaMessageContainer? kafkaMessageContainer = JsonConvert.DeserializeObject<KafkaMessageContainer>(consumeResult?.Message.Value);
@@ -29,7 +26,7 @@ namespace WorkerService1.controllers
                     emailContent = EndpointTestEmail.EmailInfoGetter(kafkaMessageContainer.serverModal, kafkaMessageContainer.healthCheckerModal);
                     break;
                 case TypeOfEmail.APIFlowErrorEmail:
-                    emailContent = APIFlowErrorEmail.EmailInfoGetter(kafkaMessageContainer.serverModal, kafkaMessageContainer.flowExecutionResult);
+                    emailContent = APIFlowErrorEmail.EmailInfoGetter(kafkaMessageContainer.serverModal,kafkaMessageContainer.flowExecutionResult);
                     break;
                 case TypeOfEmail.APIFlowTestEmail:
                     emailContent = APIFlowTestEmail.EmailInfoGetter(kafkaMessageContainer.serverModal, kafkaMessageContainer.flowExecutionResult);
@@ -40,6 +37,16 @@ namespace WorkerService1.controllers
 
             //sending email 
             MyMailer.sendEmail(emailContent);
+
+            //notify in teams too.
+            TeamsMessageContent msgContent = new TeamsMessageContent()
+            {
+                MicrosoftId = "059da870d8194da9",
+                MessageContent = emailContent.Body
+            };
+
+            await MyTeamsNotifier.NotifyAsync(msgContent);
+
         }
     }
 }

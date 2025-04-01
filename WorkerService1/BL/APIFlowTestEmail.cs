@@ -14,24 +14,32 @@ namespace WorkerService1.BL
     {
         public static EmailContent EmailInfoGetter(ServerModal sm, FlowExecutionResult flowExResult)
         {
-            //send request to the user service and get required data.
-            //getting data from env
-            string userServiceUrl = Environment.GetEnvironmentVariable("MY_USER_SERVICE_URL");
+            ////send request to the user service and get required data.
+            ////getting data from env
+            //string userServiceUrl = Environment.GetEnvironmentVariable("MY_USER_SERVICE_URL");
 
-            //create rest client 
-            RestClient client = new RestClient(userServiceUrl);
+            ////create rest client 
+            //RestClient client = new RestClient(userServiceUrl);
 
-            //new request to serve 
-            RestRequest request = new RestRequest($"alert/apiFlow", Method.Get);
-            request.AddQueryParameter("client_id", sm.Client_id);
-            request.AddQueryParameter("flow_id", sm.flow_id);
+            ////new request to serve 
+            //RestRequest request = new RestRequest($"alert/apiFlow", Method.Get);
+            //request.AddQueryParameter("client_id", sm.Client_id);
+            //request.AddQueryParameter("flow_id", sm.flow_id);
 
-            //executing request 
-            RestResponse rr = client.Execute(request);
+            ////executing request 
+            //RestResponse rr = client.Execute(request);
 
-            Response? response = JsonConvert.DeserializeObject<Response>(rr.Content);
+            //Response? response = JsonConvert.DeserializeObject<Response>(rr.Content);
 
-            ClientModal cm = response.Other;
+            //ClientModal cm = response.Other;
+
+            //temprory ----
+            ClientModal cm = new ClientModal()
+            {
+                Client_email = "codewithnavneet@gmail.com",
+                Client_name = "Navneet",
+                API_flow_name = "CD API flow"
+            };
 
             //Preparing jsong data to send along with emnail 
             string executedNodes = JsonConvert.SerializeObject(flowExResult.ExecutedNodes);
