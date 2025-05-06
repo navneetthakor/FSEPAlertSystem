@@ -31,6 +31,9 @@ namespace WorkerService1.controllers
                 case TypeOfEmail.APIFlowTestEmail:
                     emailContent = APIFlowTestEmail.EmailInfoGetter(kafkaMessageContainer.serverModal, kafkaMessageContainer.flowExecutionResult);
                     break;
+                case TypeOfEmail.AdminEmail:
+                    emailContent = AdminEmail.EmailInfoGetter(kafkaMessageContainer.message);
+                    break;
                 default:
                     return;
             }
@@ -39,13 +42,13 @@ namespace WorkerService1.controllers
             MyMailer.sendEmail(emailContent);
 
             //notify in teams too.
-            TeamsMessageContent msgContent = new TeamsMessageContent()
-            {
-                MicrosoftId = "059da870d8194da9",
-                MessageContent = emailContent.Body
-            };
+            //TeamsMessageContent msgContent = new TeamsMessageContent()
+            //{
+            //    MicrosoftId = "059da870d8194da9",
+            //    MessageContent = emailContent.Body
+            //};
 
-            await MyTeamsNotifier.NotifyAsync(msgContent);
+            //await MyTeamsNotifier.NotifyAsync(msgContent);
 
         }
     }

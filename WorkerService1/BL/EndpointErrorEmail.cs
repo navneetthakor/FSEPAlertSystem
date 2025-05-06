@@ -16,29 +16,27 @@ namespace WorkerService1.BL
         {
             ////send request to the user service and get required data.
             ////getting data from env
-            //string userServiceUrl = Environment.GetEnvironmentVariable("MY_USER_SERVICE_URL");
+            string userServiceUrl = Environment.GetEnvironmentVariable("MY_USER_SERVICE_URL");
 
             ////create rest client 
-            //RestClient client = new RestClient(userServiceUrl);
+            RestClient client = new RestClient(userServiceUrl);
 
             ////new request to serve 
-            //RestRequest request = new RestRequest($"alert/endpoint", Method.Get);
-            //request.AddQueryParameter("client_id", sm.Client_id);
-            //request.AddQueryParameter("server_id", sm.Server_id);
+            RestRequest request = new RestRequest($"User/getUserInfo/{sm.Client_id}", Method.Get);
 
             ////executing request 
-            //RestResponse rr = client.Execute(request);
+            RestResponse rr = client.Execute(request);
 
-            //Response? response = JsonConvert.DeserializeObject<Response>(rr.Content);
+            Response? response = JsonConvert.DeserializeObject<Response>(rr.Content);
 
             //ClientModal cm = response.Other;
 
             //temprory ----
             ClientModal cm = new ClientModal()
             {
-                Client_email = "tnavneet975@gmail.com",
-                Client_name = "Navneet",
-                API_flow_name = "CD API flow"
+                Client_email =  response?.Other?.email || "tnavneet975@gmail.com",
+                Client_name = response?.Other?.username || "Navneet",
+                Endpoint_name = sm.Server_name
             };
 
             //provide proper info 

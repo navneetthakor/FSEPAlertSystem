@@ -42,7 +42,7 @@ namespace WorkerService1
                     ConsumeResult<Ignore,string> consumeResult = consumer.Consume();
 
                     //sending email 
-                    EmailNotifier.NotifyError(consumeResult);
+                    await EmailNotifier.NotifyError(consumeResult);
 
                     // Send Teams message
                     //TeamsNotifier.Notify(consumeResult);

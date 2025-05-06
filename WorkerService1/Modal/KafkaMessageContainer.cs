@@ -34,16 +34,22 @@ namespace WorkerService1.Modal
         /// </summary>
         public TypeOfEmail emailType  { get; set; }
 
+        /// <summary>
+        /// message used in ADMIN email
+        /// </summary>
+        public string? message { get; set; }
+
     }
 
     public enum TypeOfEmail
     {
-    EndpointTestEmail,
-    EndpointErrorEmail,
-    EndpointSuccessEmail,
-    APIFlowTestEmail,
-    APIFlowErrorEmail,
-    APIFlowSuccessEmail
+        EndpointTestEmail,
+        EndpointErrorEmail,
+        EndpointSuccessEmail,
+        APIFlowTestEmail,
+        APIFlowErrorEmail,
+        APIFlowSuccessEmail,
+        AdminEmail
     }
 }
 

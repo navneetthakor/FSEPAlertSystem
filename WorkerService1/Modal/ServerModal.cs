@@ -2,6 +2,7 @@
 
 namespace WPS_worder_node_1.Modal
 {
+
     public class ServerModal
     {
         /// <summary>
@@ -15,9 +16,19 @@ namespace WPS_worder_node_1.Modal
         public string Server_id { get; set; }
 
         /// <summary>
+        /// server name (name of the server)
+        /// </summary>
+        public string Server_name { get; set; }
+
+        /// <summary>
         /// flow id (used in alerting service)
         /// </summary>
-        public string? flow_id { get; set; }
+        public string? Flow_id { get; set; }
+
+        /// <summary>
+        /// flow name 
+        /// </summary>
+        public string? Api_flow_name { get; set; }
 
         /// <summary>
         /// worker_id
