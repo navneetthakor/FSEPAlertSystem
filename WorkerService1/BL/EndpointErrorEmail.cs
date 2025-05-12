@@ -34,9 +34,9 @@ namespace WorkerService1.BL
             //temprory ----
             ClientModal cm = new ClientModal()
             {
-                Client_email =  response?.Other?.email || "tnavneet975@gmail.com",
-                Client_name = response?.Other?.username || "Navneet",
-                Endpoint_name = sm.Server_name
+                Client_email = (string)response?.Other?.email,
+                Client_name = (string)response?.Other?.username,
+                API_flow_name = (string)sm.Api_flow_name
             };
 
             //provide proper info 

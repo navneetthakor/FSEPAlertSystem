@@ -34,9 +34,9 @@ namespace WorkerService1.BL
             //temprory ----
             ClientModal cm = new ClientModal()
             {
-                Client_email = response?.Other?.email || "tnavneet975@gmail.com",
-                Client_name = response?.Other?.username || "Navneet",
-                API_flow_name = sm.Api_flow_name
+                Client_email = (string)response?.Other?.email,
+                Client_name =(string) response?.Other?.username,
+                API_flow_name = (string) sm.Api_flow_name
             };
 
             //Preparing jsong data to send along with emnail 

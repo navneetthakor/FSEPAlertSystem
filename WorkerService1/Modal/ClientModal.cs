@@ -11,7 +11,7 @@ namespace WorkerService1.Modal
         /// <summary>
         /// Client id (unique id for this client)
         /// </summary>
-        public int Client_id { get; set; }
+        public string Client_id { get; set; }
 
         /// <summary>
         /// Client name (name of the client)
